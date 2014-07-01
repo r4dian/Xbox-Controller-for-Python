@@ -1,7 +1,7 @@
 Xbox-360-Controller-for-Python
 ==============================
 
-Use Xbox 360 Controller with Python on Windows
+Use an Xbox 360 Controller with Python on Windows
 
 A module for getting input from Microsoft XBox 360 controllers via the XInput library on Windows.
 
@@ -11,5 +11,5 @@ under the MIT licence terms
 
 * Upgraded to Python 3
 * Modified to add deadzones, reduce noise, and support vibration
-* Only req is Pyglet 1.2alpha1 or higher: ```
-pip install --upgrade http://pyglet.googlecode.com/archive/tip.zip```
+* Only req is Pyglet 1.2alpha1 or higher: 
+```pip install --upgrade http://pyglet.googlecode.com/archive/tip.zip```
