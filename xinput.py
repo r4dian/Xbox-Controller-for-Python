@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 """
-Module for interfacing with the Microsoft XBox 360 controllers
-via the XInput library.
+A module for getting input from Microsoft XBox 360 controllers via the XInput library on Windows.
 
-MIT licence, from:
+Adapted from Jason R. Coombs' code here:
 http://pydoc.net/Python/jaraco.input/1.0.1/jaraco.input.win32.xinput/
+under the MIT licence terms
 
 Upgraded to Python 3
 Modified to add deadzones, reduce noise, and support vibration
@@ -213,7 +213,7 @@ class XInputJoystick(event.EventDispatcher):
             data_size = ctypes.sizeof(type)
             old_val = self.translate(old_val, data_size)
             new_val = self.translate(new_val, data_size)
-            
+
             # an attempt to add deadzones and dampen noise
             # done by feel rather than following http://msdn.microsoft.com/en-gb/library/windows/desktop/ee417001%28v=vs.85%29.aspx#dead_zone
             # ags, 2014-07-01
