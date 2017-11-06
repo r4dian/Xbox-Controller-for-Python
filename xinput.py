@@ -47,7 +47,12 @@ class XINPUT_VIBRATION(ctypes.Structure):
     _fields_ = [("wLeftMotorSpeed", ctypes.c_ushort),
                 ("wRightMotorSpeed", ctypes.c_ushort)]
 
-xinput = ctypes.windll.xinput9_1_0  # this is the Win 8 version ?
+class XINPUT_BATTERY_INFORMATION(ctypes.Structure):
+    _fields_ = [("BatteryType", ctypes.c_ubyte),
+                ("BatteryLevel", ctypes.c_ubyte)]
+
+xinput = ctypes.windll.xinput1_4
+#xinput = ctypes.windll.xinput9_1_0  # this is the Win 8 version ?
 # xinput1_2, xinput1_1 (32-bit Vista SP1)
 # xinput1_3 (64-bit Vista SP1)
 
@@ -175,6 +180,31 @@ class XInputJoystick(event.EventDispatcher):
         vibration = XINPUT_VIBRATION(
             int(left_motor * 65535), int(right_motor * 65535))
         XInputSetState(self.device_number, ctypes.byref(vibration))
+
+    def get_battery_information(self):
+        "Get battery type & charge level"
+        BATTERY_DEVTYPE_GAMEPAD = 0x00
+        BATTERY_DEVTYPE_HEADSET = 0x01
+        # Set up function argument types and return type
+        XInputGetBatteryInformation = xinput.XInputGetBatteryInformation
+        XInputGetBatteryInformation.argtypes = [ctypes.c_uint, ctypes.c_ubyte, ctypes.POINTER(XINPUT_BATTERY_INFORMATION)]
+        XInputGetBatteryInformation.restype = ctypes.c_uint 
+
+        battery = XINPUT_BATTERY_INFORMATION(0,0)
+        XInputGetBatteryInformation(self.device_number, BATTERY_DEVTYPE_GAMEPAD, ctypes.byref(battery))
+
+        #define BATTERY_TYPE_DISCONNECTED       0x00
+        #define BATTERY_TYPE_WIRED              0x01
+        #define BATTERY_TYPE_ALKALINE           0x02
+        #define BATTERY_TYPE_NIMH               0x03
+        #define BATTERY_TYPE_UNKNOWN            0xFF
+        #define BATTERY_LEVEL_EMPTY             0x00
+        #define BATTERY_LEVEL_LOW               0x01
+        #define BATTERY_LEVEL_MEDIUM            0x02
+        #define BATTERY_LEVEL_FULL              0x03
+        batt_type = "Unknown" if battery.BatteryType == 0xFF else ["Disconnected", "Wired", "Alkaline","Nimh"][battery.BatteryType]
+        level = ["Empty", "Low", "Medium", "Full"][battery.BatteryLevel]
+        return batt_type, level
 
     def dispatch_events(self):
         "The main event loop for a joystick"
@@ -319,6 +349,9 @@ def sample_first_joystick():
 
     j = joysticks[0]
     print('using %d' % j.device_number)
+
+    battery = j.get_battery_information()
+    print(battery)
 
     @j.event
     def on_button(button, pressed):
