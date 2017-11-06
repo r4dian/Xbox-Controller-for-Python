@@ -11,5 +11,4 @@ under the MIT licence terms
 
 * Upgraded to Python 3
 * Modified to add deadzones, reduce noise, and support vibration
-* Only req is Pyglet 1.2alpha1 or higher: 
-```pip install --upgrade http://pyglet.googlecode.com/archive/tip.zip```
+* Only req is Pyglet ~1.2alpha1 or higher~ confirmed to work with 1.2.4 (latest): ```pip install pyglet``` 
