@@ -1,9 +1,9 @@
-Xbox-360-Controller-for-Python
+Xbox-Controller-for-Python
 ==============================
 
-Use an Xbox 360 Controller with Python on Windows
+Use an Xbox 360 /XBone Controller with Python on Windows
 
-A module for getting input from Microsoft XBox 360 controllers via the XInput library on Windows.
+A module for getting input from Microsoft XBox controllers via the XInput library on Windows.
 
 Adapted from Jason R. Coombs' code here:
 http://pydoc.net/Python/jaraco.input/1.0.1/jaraco.input.win32.xinput/
